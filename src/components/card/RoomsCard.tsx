@@ -17,6 +17,7 @@ import {
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { Room } from '@/types/room';
+import Link from 'next/link';
 
 
 const AMENITY_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -88,10 +89,12 @@ export default function RoomsCard({room}: {room: Room}) {
         )}
 
         <div className="mt-5">
+         <Link href={`/rooms/${room._id}`}>
           <Button className="w-full py-5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-medium text-sm transition-all shadow-md group-hover:shadow-purple-500/10 flex items-center justify-center gap-1.5">
             View Details{' '}
             <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
           </Button>
+          </Link>
         </div>
       </div>
     </div>
