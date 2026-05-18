@@ -184,7 +184,7 @@ export default function AddRoomForm() {
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel className="flex items-center gap-2 text-xs font-bold tracking-wider text-gray-600 dark:text-gray-400">
-                      <ImageIcon className="size-4 text-purple-500" /> IMAGE URL
+                      <ImageIcon className="size-4 text-purple-500" /> IMAGE
                     </FieldLabel>
                     <Input
                       aria-invalid={fieldState.invalid}

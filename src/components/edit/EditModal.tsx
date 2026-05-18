@@ -1,14 +1,9 @@
 'use client';
 
 import React from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, useWatch } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import Image from 'next/image';
 import {
@@ -44,6 +39,7 @@ const formSchema = z.object({
   imageUrl: z.string().url('Must be a valid URL'),
   description: z.string().min(1, 'Description is required'),
   amenities: z.array(z.string()),
+  _id: z.string(),
 });
 
 interface RoomType {
@@ -54,6 +50,7 @@ interface RoomType {
   imageUrl: string;
   description: string;
   amenities: string[];
+  _id: string;
 }
 
 export default function EditModal({
@@ -74,28 +71,53 @@ export default function EditModal({
       imageUrl: room.imageUrl,
       description: room.description,
       amenities: room.amenities,
+      _id: room._id,
     },
     resolver: zodResolver(formSchema),
   });
 
-  const onSubmit = (formData: z.infer<typeof formSchema>) => {
-    console.log(formData);
-    // Add your save logic here
-    setIsEditing(false);
+  const onSubmit = async (formData: z.infer<typeof formSchema>) => {
+    const { _id, ...updateData } = formData;
+
+    try {
+      const res = await fetch(`http://localhost:5000/api/rooms/${_id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updateData),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        console.log('Successfully updated:', data);
+        setIsEditing(false);
+      } else {
+        console.error('Failed to update:', data);
+      }
+    } catch (error) {
+      console.error('Network error:', error);
+    }
   };
+
+  const imageUrl = useWatch({
+    control: form.control,
+    name: 'imageUrl',
+  });
 
   return (
     <Dialog open={isEditing} onOpenChange={setIsEditing}>
-      <DialogContent className="md:max-w-[56rem] p-0 overflow-hidden rounded-[2rem] bg-white dark:bg-gray-950 border border-gray-200/60 dark:border-gray-800/80 shadow-2xl gap-0">
+      <DialogContent className="md:max-w-4xl p-0 overflow-hidden rounded-[2rem] bg-white dark:bg-gray-950 border border-gray-200/60 dark:border-gray-800/80 shadow-2xl gap-0">
         <DialogHeader className="sr-only">
           <DialogTitle>Edit Space Configuration</DialogTitle>
         </DialogHeader>
 
         <div className="flex flex-col md:flex-row h-full max-h-[90vh]">
           {/* Left Side: Image */}
-          <div className="relative w-full md:w-[38%] h-[240px] md:h-auto bg-gray-100 dark:bg-gray-900 shrink-0">
+          <div className="relative w-full md:w-[38%] h-60 md:h-auto bg-gray-100 dark:bg-gray-900 shrink-0">
             <Image
-              src={form.watch('imageUrl') || room.imageUrl}
+              src={imageUrl || room.imageUrl}
               alt={room.roomName}
               fill
               sizes="(max-width: 768px) 100vw, 40vw"
@@ -103,13 +125,15 @@ export default function EditModal({
               priority
             />
             {/* Premium Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black/80 via-black/30 to-transparent flex flex-col justify-end p-8 text-white">
+            <div className="absolute inset-0 bg-linear-to-t md:bg-linear-to-r from-black/80 via-black/30 to-transparent flex flex-col justify-end p-8 text-white">
               <span className="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-[10px] font-bold tracking-wider uppercase w-fit mb-3 border border-white/20">
                 Preview
               </span>
-              <h3 className="text-xl font-bold leading-tight line-clamp-2 drop-shadow-md">
-                {form.watch('roomName') || room.roomName}
-              </h3>
+              <Controller
+                control={form.control}
+                name="roomName"
+                render={({ field }) => <Input placeholder="Destination Name" {...field} />}
+              />
             </div>
           </div>
 
@@ -218,10 +242,7 @@ export default function EditModal({
                   control={form.control}
                   name="imageUrl"
                   render={({ field, fieldState }) => (
-                    <Field
-                      data-invalid={fieldState.invalid}
-                      className="sm:col-span-2"
-                    >
+                    <Field data-invalid={fieldState.invalid} className="sm:col-span-2">
                       <FieldLabel className="text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 flex items-center gap-2 mb-2">
                         <ImageIcon className="size-3.5 text-purple-500" />
                         Cover Image URL
@@ -242,10 +263,7 @@ export default function EditModal({
                   control={form.control}
                   name="description"
                   render={({ field, fieldState }) => (
-                    <Field
-                      data-invalid={fieldState.invalid}
-                      className="sm:col-span-2"
-                    >
+                    <Field data-invalid={fieldState.invalid} className="sm:col-span-2">
                       <FieldLabel className="text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 flex items-center gap-2 mb-2">
                         <FileText className="size-3.5 text-purple-500" />
                         Description
@@ -279,9 +297,7 @@ export default function EditModal({
                               type="button"
                               onClick={() => {
                                 const newValue = isSelected
-                                  ? field.value.filter(
-                                      (id: string) => id !== amenity.id
-                                    )
+                                  ? field.value.filter((id: string) => id !== amenity.id)
                                   : [...(field.value || []), amenity.id];
                                 field.onChange(newValue);
                               }}
