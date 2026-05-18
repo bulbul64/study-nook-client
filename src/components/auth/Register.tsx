@@ -9,6 +9,8 @@ import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(1, "নাম আবশ্যক"),
@@ -16,12 +18,16 @@ const formSchema = z.object({
   photoUrl: z.string().url("সঠিক ছবির ইউআরএল (URL) দিন"),
   password: z
     .string()
-    .min(6, "পাসওয়ার্ড অন্তত ৬ অক্ষরের হতে হবে")
-    .regex(/[A-Z]/, "অন্তত একটি বড় হাতের অক্ষর (Uppercase) থাকতে হবে")
-    .regex(/[a-z]/, "অন্তত একটি ছোট হাতের অক্ষর (Lowercase) থাকতে হবে"),
+    // .min(6, "পাসওয়ার্ড অন্তত ৬ অক্ষরের হতে হবে")
+    // .regex(/[A-Z]/, "অন্তত একটি বড় হাতের অক্ষর (Uppercase) থাকতে হবে")
+    // .regex(/[a-z]/, "অন্তত একটি ছোট হাতের অক্ষর (Lowercase) থাকতে হবে"),
 });
 
+
 const Register = () => {
+
+const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
       name: "",
@@ -32,9 +38,17 @@ const Register = () => {
     resolver: zodResolver(formSchema),
   });
   
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
-   
-    console.log(data);
+  const onSubmit = async (formData: z.infer<typeof formSchema>) => {
+    const {error } = await authClient.signUp.email({
+    name: formData.name,
+    email: formData.email,
+    password: formData.password,
+    image: formData.photoUrl,
+});
+
+    if (!error) {
+  router.push('/')
+}
   };
   
   return (
@@ -59,7 +73,7 @@ const Register = () => {
         }}
       />
 
-      <div className="relative w-full max-w-105 backdrop-blur-xl bg-white/60 dark:bg-gray-900/60 rounded-2xl border border-gray-200/80 dark:border-gray-800/80 px-8 py-10 shadow-2xl transition-all duration-300 my-8">
+      <div className="relative w-full max-w-lg backdrop-blur-xl bg-white/60 dark:bg-gray-900/60 rounded-2xl border border-gray-200/80 dark:border-gray-800/80 px-8 py-10 shadow-2xl transition-all duration-300 my-8">
         <div className="relative flex flex-col items-center">
           <div className="h-12 w-12 rounded-xl bg-[#FA9500]/10 flex items-center justify-center border border-[#FA9500]/20 text-[#FA9500] font-bold text-xl tracking-wider shadow-inner">
             SN
