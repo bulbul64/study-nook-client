@@ -22,6 +22,7 @@ import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
 import Image from 'next/image';
 import EditModal from '../edit/EditModal';
+import { AlertDialogDestructive } from '../AlertDialogAction ';
 
 const amenityIcons: Record<string, React.ComponentType<{ className?: string }>> = {
   wifi: Wifi,
@@ -46,7 +47,7 @@ interface RoomType {
 
 export default function RoomDetailsClient({ room }: { room: RoomType }) {
   const router = useRouter();
-  const [isDeleting, setIsDeleting] = useState(false);
+  
   const [isEditing, setIsEditing] = useState(false);
 
   if (!room) {
@@ -68,13 +69,10 @@ export default function RoomDetailsClient({ room }: { room: RoomType }) {
 
   const bookingCount = room.bookingCount || 0;
 
-  const handleDelete = async () => {
-    const isConfirmed = window.confirm(
-      'Are you absolutely sure you want to delete this room permanently?',
-    );
-    if (!isConfirmed) return;
 
-    setIsDeleting(true);
+  const handleDelete = async () => {
+    
+
     try {
       const res = await fetch(`http://localhost:5000/api/rooms/${room._id}`, {
         method: 'DELETE',
@@ -90,9 +88,7 @@ export default function RoomDetailsClient({ room }: { room: RoomType }) {
     } catch (error) {
       console.error(error);
       toast.error('Something went wrong while deleting.');
-    } finally {
-      setIsDeleting(false);
-    }
+    } 
   };
 
   return (
@@ -122,16 +118,11 @@ export default function RoomDetailsClient({ room }: { room: RoomType }) {
                 <Edit3 className="size-4 text-blue-500" />
                 Edit Space
               </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                disabled={isDeleting}
-                onClick={handleDelete}
-                className="rounded-xl border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 flex items-center gap-2 font-semibold"
-              >
-                <Trash2 className="size-4" />
-                {isDeleting ? 'Deleting...' : 'Delete Space'}
-              </Button>
+              
+             
+              
+              <AlertDialogDestructive handleDelete={handleDelete} />
+           
             </div>
           </div>
 
