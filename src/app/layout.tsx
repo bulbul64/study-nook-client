@@ -4,6 +4,7 @@ import './globals.css';
 import Navbar from '@/components/shared/Navbar';
 import Footer from '@/components/shared/Footer';
 import { ThemeProvider } from '@/components/theme-provider';
+import { Toaster } from '@/components/ui/sonner';
 
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -37,6 +38,7 @@ export default function RootLayout({
           {children}
           <Footer />
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   );
