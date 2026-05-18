@@ -1,4 +1,4 @@
-import AddRoomForm from '@/components/AddRoomForm';
+import AddRoomForm from '@/components/rooms/AddRoomForm';
 import Image from 'next/image';
 import React from 'react';
 

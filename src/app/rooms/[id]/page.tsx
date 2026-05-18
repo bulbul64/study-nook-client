@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
-import RoomDetailsClient from '@/components/card/RoomDetailsCard';
+import RoomDetailsClient from '@/components/rooms/RoomDetailsCard';
 
 interface PageProps {
   params: Promise<{ id: string }>;

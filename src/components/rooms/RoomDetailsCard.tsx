@@ -13,16 +13,16 @@ import {
   Coffee,
   ArrowLeft,
   Edit3,
-  Trash2,
   BookmarkCheck,
 } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input'; 
 import { toast } from 'sonner';
 import Image from 'next/image';
-import EditModal from '../edit/EditModal';
-import { AlertDialogDestructive } from '../AlertDialogAction ';
+import EditModal from './EditModal';
+import { AlertDialogDestructive } from './AlertDialogAction ';
 
 const amenityIcons: Record<string, React.ComponentType<{ className?: string }>> = {
   wifi: Wifi,
@@ -47,16 +47,16 @@ interface RoomType {
 
 export default function RoomDetailsClient({ room }: { room: RoomType }) {
   const router = useRouter();
-  
   const [isEditing, setIsEditing] = useState(false);
+
+  const [bookingDate, setBookingDate] = useState('');
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
 
   if (!room) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-950 px-4">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Room not found!</h2>
-        <p className="text-gray-500 mt-2">
-          The study space you are looking for does not exist or was removed.
-        </p>
         <Link
           href="/rooms"
           className="mt-5 text-sm text-purple-600 font-semibold hover:underline flex items-center gap-2"
@@ -69,15 +69,9 @@ export default function RoomDetailsClient({ room }: { room: RoomType }) {
 
   const bookingCount = room.bookingCount || 0;
 
-
   const handleDelete = async () => {
-    
-
     try {
-      const res = await fetch(`http://localhost:5000/api/rooms/${room._id}`, {
-        method: 'DELETE',
-      });
-
+      const res = await fetch(`http://localhost:5000/api/rooms/${room._id}`, { method: 'DELETE' });
       if (res.ok) {
         toast.success('Room deleted successfully!');
         router.push('/rooms');
@@ -88,7 +82,39 @@ export default function RoomDetailsClient({ room }: { room: RoomType }) {
     } catch (error) {
       console.error(error);
       toast.error('Something went wrong while deleting.');
-    } 
+    }
+  };
+
+  const handleBooking = async () => {
+    if (!bookingDate || !startTime || !endTime) {
+      toast.error('Please fill all booking fields!');
+      return;
+    }
+
+    const bookingData = {
+      roomId: room._id,
+      date: bookingDate,
+      startTime,
+      endTime,
+    };
+
+    try {
+      const res = await fetch('http://localhost:5000/api/bookings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(bookingData),
+      });
+
+      if (res.ok) {
+        toast.success('Space booked successfully!');
+        router.refresh();
+      } else {
+        toast.error('Booking failed. Slot might be unavailable.');
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error('Something went wrong.');
+    }
   };
 
   return (
@@ -99,6 +125,7 @@ export default function RoomDetailsClient({ room }: { room: RoomType }) {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-100 bg-radial from-purple-500/10 via-indigo-500/5 to-transparent pointer-events-none blur-3xl dark:from-purple-500/15" />
 
         <div className="max-w-5xl mx-auto relative z-10">
+          {/* Header Actions */}
           <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8">
             <Link
               href="/rooms"
@@ -115,18 +142,14 @@ export default function RoomDetailsClient({ room }: { room: RoomType }) {
                 onClick={() => setIsEditing(true)}
                 className="rounded-xl border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 flex items-center gap-2 font-semibold hover:border-blue-500 hover:text-blue-500 dark:hover:text-blue-400"
               >
-                <Edit3 className="size-4 text-blue-500" />
-                Edit Space
+                <Edit3 className="size-4 text-blue-500" /> Edit Space
               </Button>
-              
-             
-              
               <AlertDialogDestructive handleDelete={handleDelete} />
-           
             </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+            {/* Left Side: Room Details */}
             <div className="lg:col-span-2 space-y-6">
               <div className="relative aspect-video w-full rounded-3xl overflow-hidden border border-gray-200/60 dark:border-gray-800/60 shadow-xl bg-gray-100 dark:bg-gray-900">
                 <Image
@@ -160,8 +183,7 @@ export default function RoomDetailsClient({ room }: { room: RoomType }) {
                         variant="secondary"
                         className="px-4 py-2 rounded-xl bg-white dark:bg-gray-900 border border-gray-200/60 dark:border-gray-800/60 shadow-sm flex items-center gap-2.5 capitalize text-xs font-semibold text-gray-700 dark:text-gray-300"
                       >
-                        <Icon className="size-4 text-purple-500" />
-                        {amenity}
+                        <Icon className="size-4 text-purple-500" /> {amenity}
                       </Badge>
                     );
                   })}
@@ -202,6 +224,44 @@ export default function RoomDetailsClient({ room }: { room: RoomType }) {
                   </div>
                 </div>
 
+                <div className="space-y-3 pt-2 border-t border-gray-100 dark:border-gray-800">
+                  <div>
+                    <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1 block">
+                      Select Date
+                    </label>
+                    <Input
+                      type="date"
+                      value={bookingDate}
+                      onChange={(e) => setBookingDate(e.target.value)}
+                      className="rounded-xl"
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1 block">
+                        Start Time
+                      </label>
+                      <Input
+                        type="time"
+                        value={startTime}
+                        onChange={(e) => setStartTime(e.target.value)}
+                        className="rounded-xl"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1 block">
+                        End Time
+                      </label>
+                      <Input
+                        type="time"
+                        value={endTime}
+                        onChange={(e) => setEndTime(e.target.value)}
+                        className="rounded-xl"
+                      />
+                    </div>
+                  </div>
+                </div>
+
                 <div className="space-y-3.5 pt-2">
                   <div className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-300">
                     <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-xl text-gray-500">
@@ -214,7 +274,6 @@ export default function RoomDetailsClient({ room }: { room: RoomType }) {
                       </span>
                     </span>
                   </div>
-
                   <div className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-300">
                     <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-xl text-gray-500">
                       <Users className="size-4" />
@@ -228,9 +287,11 @@ export default function RoomDetailsClient({ room }: { room: RoomType }) {
                   </div>
                 </div>
 
-                <Button className="w-full py-6 rounded-2xl font-bold text-sm shadow-md transition-all active:scale-[0.98] flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white shadow-purple-500/10">
-                  <Calendar className="size-4" />
-                  Book This Space Now
+                <Button
+                  onClick={handleBooking}
+                  className="w-full py-6 rounded-2xl font-bold text-sm shadow-md transition-all active:scale-[0.98] flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white shadow-purple-500/10"
+                >
+                  <Calendar className="size-4" /> Book This Space Now
                 </Button>
 
                 <p className="text-[11px] text-center text-gray-400 dark:text-gray-500">

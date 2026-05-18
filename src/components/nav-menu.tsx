@@ -24,7 +24,10 @@ export const NavMenu = (props: ComponentProps<typeof NavigationMenu>) => {
       <NavigationMenuList className="space-x-1 data-[orientation=vertical]:flex-col data-[orientation=vertical]:space-x-0 data-[orientation=vertical]:space-y-2 data-[orientation=vertical]:items-start w-full">
         {links.map((link) => (
           <NavigationMenuItem key={link.title}>
-            <NavigationMenuLink asChild className={`${navigationMenuTriggerStyle()} w-full justify-start rounded-full`}>
+            <NavigationMenuLink
+              asChild
+              className={`${navigationMenuTriggerStyle()} w-full justify-start rounded-full text-gray-700 dark:text-gray-300 hover:text-[#FA9500] data-active:text-[#FA9500] data-active:bg-[#FA9500]/10`}
+            >
               <Link href={link.href}>{link.title}</Link>
             </NavigationMenuLink>
           </NavigationMenuItem>

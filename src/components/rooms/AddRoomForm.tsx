@@ -19,8 +19,8 @@ import { Button } from '@/components/ui/button';
 import { z } from 'zod';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Field, FieldError, FieldLabel } from './ui/field';
-import { Input } from './ui/input';
+import { Field, FieldError, FieldLabel } from '../ui/field';
+import { Input } from '../ui/input';
 import { toast } from 'sonner';
 
 const AVAILABLE_AMENITIES = [
@@ -70,23 +70,20 @@ export default function AddRoomForm() {
           toast.error('Failed to add room');
         }
       })
-      .catch((error) => {
-        console.error('Error adding room:', error);
+      .catch(() => {
         toast.error('Failed to add room');
       });
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-1">
-      <div className="relative bg-white/70 dark:bg-gray-900/70 backdrop-blur-md border border-gray-200/60 dark:border-gray-800/60 shadow-2xl rounded-3xl p-6 sm:p-10 overflow-hidden">
+    <div className="w-full max-w-4xl mx-auto p-4">
+      <div className="relative bg-white/60 dark:bg-gray-900/60 backdrop-blur-xl border border-gray-200/80 dark:border-gray-800/80 shadow-2xl rounded-2xl p-6 sm:p-10 overflow-hidden">
         <div className="mb-8 text-center sm:text-left">
-          <h2 className="text-3xl font-black tracking-tight text-gray-950 dark:text-white sm:text-4xl">
-            Create a New{' '}
-            <span className="text-transparent bg-clip-text bg-linear-to-r from-purple-600 via-indigo-500 to-sky-500">
-              Study Space
-            </span>
+          <h2 className="text-3xl font-semibold tracking-tight text-gray-950 dark:text-gray-50 sm:text-4xl">
+            Create a New <span className="text-[#FA9500]">Study Space</span>
           </h2>
-          <p className="mt-2 text-sm sm:text-base text-gray-600 dark:text-gray-400">
+
+          <p className="mt-2 text-sm sm:text-base text-muted-foreground">
             Fill in the details below to list your room for students.
           </p>
         </div>
@@ -99,12 +96,12 @@ export default function AddRoomForm() {
                 name="roomName"
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel className="flex items-center gap-2 text-xs font-bold tracking-wider text-gray-600 dark:text-gray-400">
-                      <Building className="size-4 text-purple-500" /> ROOM NAME
+                    <FieldLabel className="flex items-center gap-2 text-xs font-semibold tracking-wide text-gray-700 dark:text-gray-300">
+                      <Building className="size-4 text-[#FA9500]" /> ROOM NAME
                     </FieldLabel>
                     <Input
                       aria-invalid={fieldState.invalid}
-                      className="w-full px-4 py-3 rounded-xl border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-gray-950/50 text-sm focus:ring-2 focus:ring-purple-500/50"
+                      className="w-full h-11 rounded-xl border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-gray-950/50 text-sm focus-visible:ring-[#FA9500]"
                       placeholder="e.g., Quiet Corner Lab"
                       type="text"
                       {...field}
@@ -119,12 +116,12 @@ export default function AddRoomForm() {
                 name="floor"
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel className="flex items-center gap-2 text-xs font-bold tracking-wider text-gray-600 dark:text-gray-400">
-                      <Layers className="size-4 text-purple-500" /> FLOOR
+                    <FieldLabel className="flex items-center gap-2 text-xs font-semibold tracking-wide text-gray-700 dark:text-gray-300">
+                      <Layers className="size-4 text-[#FA9500]" /> FLOOR
                     </FieldLabel>
                     <Input
                       aria-invalid={fieldState.invalid}
-                      className="w-full px-4 py-3 rounded-xl border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-gray-950/50 text-sm focus:ring-2 focus:ring-purple-500/50"
+                      className="w-full h-11 rounded-xl border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-gray-950/50 text-sm focus-visible:ring-[#FA9500]"
                       placeholder="e.g., 3rd Floor"
                       type="text"
                       {...field}
@@ -139,12 +136,12 @@ export default function AddRoomForm() {
                 name="capacity"
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel className="flex items-center gap-2 text-xs font-bold tracking-wider text-gray-600 dark:text-gray-400">
-                      <Users className="size-4 text-purple-500" /> CAPACITY
+                    <FieldLabel className="flex items-center gap-2 text-xs font-semibold tracking-wide text-gray-700 dark:text-gray-300">
+                      <Users className="size-4 text-[#FA9500]" /> CAPACITY
                     </FieldLabel>
                     <Input
                       aria-invalid={fieldState.invalid}
-                      className="w-full px-4 py-3 rounded-xl border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-gray-950/50 text-sm focus:ring-2 focus:ring-purple-500/50"
+                      className="w-full h-11 rounded-xl border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-gray-950/50 text-sm focus-visible:ring-[#FA9500]"
                       placeholder="e.g., 6 Persons"
                       type="number"
                       {...field}
@@ -159,18 +156,16 @@ export default function AddRoomForm() {
                 name="hourlyRate"
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel className="flex items-center gap-2 text-xs font-bold tracking-wider text-gray-600 dark:text-gray-400">
-                      <DollarSign className="size-4 text-purple-500" /> HOURLY RATE
+                    <FieldLabel className="flex items-center gap-2 text-xs font-semibold tracking-wide text-gray-700 dark:text-gray-300">
+                      <DollarSign className="size-4 text-[#FA9500]" /> HOURLY RATE
                     </FieldLabel>
-                    <div className="relative w-full">
-                      <Input
-                        aria-invalid={fieldState.invalid}
-                        className="w-full px-4 py-3 rounded-xl border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-gray-950/50 text-sm focus:ring-2 focus:ring-purple-500/50"
-                        placeholder="0.00"
-                        type="number"
-                        {...field}
-                      />
-                    </div>
+                    <Input
+                      aria-invalid={fieldState.invalid}
+                      className="w-full h-11 rounded-xl border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-gray-950/50 text-sm focus-visible:ring-[#FA9500]"
+                      placeholder="0.00"
+                      type="number"
+                      {...field}
+                    />
                     <FieldError errors={[fieldState.error]} />
                   </Field>
                 )}
@@ -183,12 +178,12 @@ export default function AddRoomForm() {
                 name="imageUrl"
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel className="flex items-center gap-2 text-xs font-bold tracking-wider text-gray-600 dark:text-gray-400">
-                      <ImageIcon className="size-4 text-purple-500" /> IMAGE
+                    <FieldLabel className="flex items-center gap-2 text-xs font-semibold tracking-wide text-gray-700 dark:text-gray-300">
+                      <ImageIcon className="size-4 text-[#FA9500]" /> IMAGE
                     </FieldLabel>
                     <Input
                       aria-invalid={fieldState.invalid}
-                      className="w-full px-4 py-3 rounded-xl border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-gray-950/50 text-sm focus:ring-2 focus:ring-purple-500/50"
+                      className="w-full h-11 rounded-xl border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-gray-950/50 text-sm focus-visible:ring-[#FA9500]"
                       placeholder="https://example.com/room.jpg"
                       type="url"
                       {...field}
@@ -203,36 +198,32 @@ export default function AddRoomForm() {
                 name="amenities"
                 render={({ field }) => (
                   <Field>
-                    <FieldLabel className="text-xs font-bold tracking-wider text-gray-600 dark:text-gray-400 mb-2 block">
+                    <FieldLabel className="text-xs font-semibold tracking-wide text-gray-700 dark:text-gray-300 mb-2 block">
                       SELECT AMENITIES
                     </FieldLabel>
+
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {AVAILABLE_AMENITIES.map((amenity) => {
-                        const IconComponent = amenity.icon;
+                        const Icon = amenity.icon;
                         const isSelected = field.value?.includes(amenity.id);
+
                         return (
                           <button
                             key={amenity.id}
                             type="button"
                             onClick={() => {
                               const newValue = isSelected
-                                ? field.value.filter((id: string) => id !== amenity.id)
+                                ? field.value.filter((i: string) => i !== amenity.id)
                                 : [...(field.value || []), amenity.id];
                               field.onChange(newValue);
                             }}
-                            className={`flex items-center gap-3 px-4 py-3 rounded-xl border text-left text-sm font-medium transition-all transform active:scale-95 ${
+                            className={`flex items-center gap-3 px-4 py-3 rounded-xl border text-sm font-medium transition-all ${
                               isSelected
-                                ? 'bg-purple-600/10 border-purple-500 text-purple-600 dark:text-purple-400 shadow-sm'
-                                : 'bg-white/30 dark:bg-gray-950/30 border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-900'
+                                ? 'bg-[#FA9500]/10 border-[#FA9500]/30 text-[#FA9500]'
+                                : 'bg-white/40 dark:bg-gray-950/40 border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-900'
                             }`}
                           >
-                            <IconComponent
-                              className={`size-4 ${
-                                isSelected
-                                  ? 'text-purple-600 dark:text-purple-400'
-                                  : 'text-gray-400'
-                              }`}
-                            />
+                            <Icon className={`size-4 ${isSelected ? 'text-[#FA9500]' : 'text-gray-400'}`} />
                             {amenity.label}
                           </button>
                         );
@@ -249,16 +240,18 @@ export default function AddRoomForm() {
                 name="description"
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel className="flex items-center gap-2 text-xs font-bold tracking-wider text-gray-600 dark:text-gray-400">
-                      <FileText className="size-4 text-purple-500" /> DESCRIPTION
+                    <FieldLabel className="flex items-center gap-2 text-xs font-semibold tracking-wide text-gray-700 dark:text-gray-300">
+                      <FileText className="size-4 text-[#FA9500]" /> DESCRIPTION
                     </FieldLabel>
+
                     <textarea
                       aria-invalid={fieldState.invalid}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-gray-950/50 text-gray-950 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all text-sm resize-none"
-                      placeholder="Tell students about the environment, specific rules, or setup of this room..."
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-gray-950/50 text-sm resize-none focus-visible:ring-[#FA9500]"
                       rows={4}
+                      placeholder="Tell students about the room..."
                       {...field}
                     />
+
                     <FieldError errors={[fieldState.error]} />
                   </Field>
                 )}
@@ -266,14 +259,12 @@ export default function AddRoomForm() {
             </div>
           </div>
 
-          <div className="pt-4">
-            <Button
-              type="submit"
-              className="w-full sm:w-auto px-8 py-6 rounded-full bg-purple-600 hover:bg-purple-700 text-white font-semibold text-base transition-all shadow-lg hover:shadow-purple-500/20 flex items-center justify-center gap-2 transform hover:-translate-y-0.5"
-            >
-              <Plus className="size-5" /> Create Study Room
-            </Button>
-          </div>
+          <Button
+            type="submit"
+            className="w-full sm:w-auto h-11 px-8 rounded-xl bg-[#FA9500] hover:bg-[#e08600] text-white font-medium shadow-lg shadow-[#FA9500]/20"
+          >
+            <Plus className="size-5" /> Create Study Room
+          </Button>
         </form>
       </div>
     </div>

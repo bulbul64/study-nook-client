@@ -1,24 +1,21 @@
 'use client';
 
 import React from 'react';
-import { 
-  Building, 
-  Users, 
-  DollarSign, 
-  Layers, 
-  Wifi, 
-  Tv, 
-  AirVent, 
-  Coffee, 
+import {
+  Users,
+  DollarSign,
+  Layers,
+  Wifi,
+  Tv,
+  AirVent,
+  Coffee,
   Sparkles,
   ArrowRight,
-  Inbox
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { Room } from '@/types/room';
 import Link from 'next/link';
-
 
 const AMENITY_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   wifi: Wifi,
@@ -28,32 +25,29 @@ const AMENITY_ICONS: Record<string, React.ComponentType<{ className?: string }>>
   coffee: Coffee,
 };
 
-
-
-export default function RoomsCard({room}: {room: Room}) {
+export default function RoomsCard({ room }: { room: Room }) {
   return (
-    <div
-      key={room._id}
-      className="group relative flex flex-col h-full bg-white/70 dark:bg-gray-900/70 backdrop-blur-md border border-gray-200/60 dark:border-gray-800/60 shadow-lg hover:shadow-2xl rounded-3xl overflow-hidden transition-all duration-300 transform hover:-translate-y-1"
-    >
+    <div className="group relative flex flex-col h-full bg-white/60 dark:bg-gray-900/60 backdrop-blur-xl border border-gray-200/80 dark:border-gray-800/80 shadow-lg hover:shadow-2xl rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1">
       <div className="relative aspect-video w-full overflow-hidden bg-gray-100 dark:bg-gray-800">
         <Image
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           src={room.imageUrl}
           alt={room.roomName}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
 
-        <div className="absolute top-4 right-4 flex items-center gap-0.5 px-3 py-1.5 bg-gray-950/80 dark:bg-white/90 backdrop-blur-xs rounded-full text-white dark:text-gray-950 font-bold text-sm shadow-md">
-          <DollarSign className="size-3.5" />
+        <div className="absolute top-4 right-4 flex items-center gap-1 px-3 py-1.5 bg-gray-950/80 dark:bg-white/90 backdrop-blur-xl rounded-full text-white dark:text-gray-950 font-semibold text-sm shadow-md">
+          <DollarSign className="size-3.5 text-[#FA9500]" />
           <span>{room.hourlyRate}</span>
-          <span className="text-xs font-normal text-gray-300 dark:text-gray-600">/hr</span>
+          <span className="text-xs font-normal text-gray-300 dark:text-gray-600">
+            /hr
+          </span>
         </div>
       </div>
 
       <div className="flex flex-col flex-1 p-6">
-        <div className="flex items-center gap-3 text-xs font-semibold tracking-wider text-purple-600 dark:text-purple-400 uppercase mb-3">
+        <div className="flex items-center gap-3 text-xs font-semibold tracking-wider text-[#FA9500] uppercase mb-3">
           <span className="flex items-center gap-1">
             <Layers className="size-3.5" /> {room.floor}
           </span>
@@ -63,7 +57,7 @@ export default function RoomsCard({room}: {room: Room}) {
           </span>
         </div>
 
-        <h3 className="text-xl font-bold text-gray-950 dark:text-white tracking-tight line-clamp-1 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+        <h3 className="text-xl font-bold text-gray-900 dark:text-gray-50 tracking-tight line-clamp-1 group-hover:text-[#FA9500] transition-colors">
           {room.roomName}
         </h3>
 
@@ -72,7 +66,7 @@ export default function RoomsCard({room}: {room: Room}) {
         </p>
 
         {room.amenities && room.amenities.length > 0 && (
-          <div className="mt-5 pt-4 border-t border-gray-100 dark:border-gray-800/80 flex items-center gap-2">
+          <div className="mt-5 pt-4 border-t border-gray-200 dark:border-gray-800 flex items-center gap-2">
             {room.amenities.map((amenityId) => {
               const Icon = AMENITY_ICONS[amenityId];
               return Icon ? (
@@ -89,11 +83,11 @@ export default function RoomsCard({room}: {room: Room}) {
         )}
 
         <div className="mt-5">
-         <Link href={`/rooms/${room._id}`}>
-          <Button className="w-full py-5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-medium text-sm transition-all shadow-md group-hover:shadow-purple-500/10 flex items-center justify-center gap-1.5">
-            View Details{' '}
-            <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
-          </Button>
+          <Link href={`/rooms/${room._id}`}>
+            <Button className="w-full h-11 rounded-xl bg-[#FA9500] hover:bg-[#e08600] text-white font-medium shadow-md shadow-[#FA9500]/20 flex items-center justify-center gap-2">
+              View Details
+              <ArrowRight className="size-4 group-hover:translate-x-0.5 transition-transform" />
+            </Button>
           </Link>
         </div>
       </div>

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import {  Mail, Phone } from 'lucide-react';
+import { Mail, Phone } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import Logo from '../logo';
 import { BsInstagram } from 'react-icons/bs';
@@ -17,26 +17,26 @@ const footerLinks = [
 
 const Footer = () => {
   return (
-    <footer className="w-full bg-white/50 dark:bg-gray-950/50 border-t border-gray-200/60 dark:border-gray-800/60 backdrop-blur-md">
+    <footer className="w-full bg-gray-50/60 dark:bg-gray-950/60 border-t border-gray-200/80 dark:border-gray-800/80 backdrop-blur-xl">
       <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 xl:gap-12">
-          
+
           <div className="space-y-4">
             <Logo />
             <p className="text-sm text-gray-600 dark:text-gray-400 max-w-xs">
-              Find and book the perfect premium environment tailored for your study and collaborative group sessions.
+              Find and book the perfect study environment for focused work and group collaboration.
             </p>
           </div>
 
           <div>
-            <h6 className="text-sm font-bold tracking-wider text-gray-950 dark:text-white uppercase mb-4">
+            <h6 className="text-sm font-bold tracking-wider text-gray-900 dark:text-gray-50 uppercase mb-4">
               Useful Links
             </h6>
             <ul className="space-y-3">
               {footerLinks.map(({ title, href }) => (
                 <li key={title}>
                   <Link
-                    className="text-sm text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+                    className="text-sm text-gray-600 dark:text-gray-400 hover:text-[#FA9500] transition-colors"
                     href={href}
                   >
                     {title}
@@ -47,19 +47,27 @@ const Footer = () => {
           </div>
 
           <div>
-            <h6 className="text-sm font-bold tracking-wider text-gray-950 dark:text-white uppercase mb-4">
+            <h6 className="text-sm font-bold tracking-wider text-gray-900 dark:text-gray-50 uppercase mb-4">
               Contact Information
             </h6>
+
             <ul className="space-y-3 text-sm text-gray-600 dark:text-gray-400">
               <li className="flex items-center gap-2.5">
-                <Mail className="size-4 text-purple-500" />
-                <a href="mailto:info@studynook.com" className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                <Mail className="size-4 text-[#FA9500]" />
+                <a
+                  href="mailto:info@studynook.com"
+                  className="hover:text-[#FA9500] transition-colors"
+                >
                   info@studynook.com
                 </a>
               </li>
+
               <li className="flex items-center gap-2.5">
-                <Phone className="size-4 text-purple-500" />
-                <a href="tel:+880123456789" className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                <Phone className="size-4 text-[#FA9500]" />
+                <a
+                  href="tel:+880123456789"
+                  className="hover:text-[#FA9500] transition-colors"
+                >
                   +880 1234-567890
                 </a>
               </li>
@@ -68,30 +76,33 @@ const Footer = () => {
 
         </div>
 
-        <Separator className="my-8 bg-gray-200/60 dark:bg-gray-800/60" />
+        <Separator className="my-8 bg-gray-200/80 dark:bg-gray-800/80" />
 
-        <div className="flex flex-col-reverse items-center justify-between gap-y-4 sm:flex-row">
+        <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-y-4">
           <span className="text-xs text-gray-500 dark:text-gray-400">
             &copy; {new Date().getFullYear()}{' '}
-            <Link href="/" className="hover:text-purple-600 dark:hover:text-purple-400 font-medium">
+            <Link href="/" className="hover:text-[#FA9500] font-medium transition-colors">
               StudyNook
             </Link>
             . All rights reserved.
           </span>
 
           <div className="flex items-center gap-5 text-gray-500 dark:text-gray-400">
-            <Link href="#" className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors" target="_blank">
+            <Link href="#" className="hover:text-[#FA9500] transition-colors">
               <FaFacebook className="size-5" />
             </Link>
-            <Link href="#" className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors" target="_blank">
-              <svg viewBox="0 0 24 24" aria-hidden="true" className="size-4.5 fill-current">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+
+            <Link href="#" className="hover:text-[#FA9500] transition-colors">
+              <svg viewBox="0 0 24 24" className="size-4.5 fill-current">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231z" />
               </svg>
             </Link>
-            <Link href="#" className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors" target="_blank">
+
+            <Link href="#" className="hover:text-[#FA9500] transition-colors">
               <LiaLinkedin className="size-5" />
             </Link>
-            <Link href="#" className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors" target="_blank">
+
+            <Link href="#" className="hover:text-[#FA9500] transition-colors">
               <BsInstagram className="size-5" />
             </Link>
           </div>
