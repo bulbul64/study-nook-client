@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+import { Room } from '@/types/room';
 
 
 const AMENITY_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -28,7 +29,7 @@ const AMENITY_ICONS: Record<string, React.ComponentType<{ className?: string }>>
 
 
 
-export default function RoomsCard({room}: any) {
+export default function RoomsCard({room}: {room: Room}) {
   return (
     <div
       key={room._id}

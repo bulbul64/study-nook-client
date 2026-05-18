@@ -1,56 +1,42 @@
-import {
-  // DribbbleIcon,
-  // GithubIcon,
-  // TwitchIcon,
-  // TwitterIcon,
-} from "lucide-react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
-import Logo from "../logo";
+'use client';
+
+import React from 'react';
+import Link from 'next/link';
+import {  Mail, Phone } from 'lucide-react';
+import { Separator } from '@/components/ui/separator';
+import Logo from '../logo';
+import { BsInstagram } from 'react-icons/bs';
+import { LiaLinkedin } from 'react-icons/lia';
+import { FaFacebook } from 'react-icons/fa';
 
 const footerLinks = [
-  {
-    title: "Overview",
-    href: "#",
-  },
-  {
-    title: "Features",
-    href: "#",
-  },
-  {
-    title: "Pricing",
-    href: "#",
-  },
-  {
-    title: "Careers",
-    href: "#",
-  },
-  {
-    title: "Help",
-    href: "#",
-  },
-  {
-    title: "Privacy",
-    href: "#",
-  },
+  { title: 'Home', href: '/' },
+  { title: 'Rooms', href: '/rooms' },
+  { title: 'About', href: '/about' },
 ];
 
 const Footer = () => {
   return (
-    <footer className="border-t">
-      <div className="mx-auto max-w-(--breakpoint-xl)">
-        <div className="flex flex-col items-start justify-between gap-x-8 gap-y-10 px-6 py-12 sm:flex-row xl:px-0">
-          <div>
+    <footer className="w-full bg-white/50 dark:bg-gray-950/50 border-t border-gray-200/60 dark:border-gray-800/60 backdrop-blur-md">
+      <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 xl:gap-12">
+          
+          <div className="space-y-4">
             <Logo />
-         
+            <p className="text-sm text-gray-600 dark:text-gray-400 max-w-xs">
+              Find and book the perfect premium environment tailored for your study and collaborative group sessions.
+            </p>
+          </div>
 
-            <ul className="mt-6 flex flex-wrap items-center gap-4">
+          <div>
+            <h6 className="text-sm font-bold tracking-wider text-gray-950 dark:text-white uppercase mb-4">
+              Useful Links
+            </h6>
+            <ul className="space-y-3">
               {footerLinks.map(({ title, href }) => (
                 <li key={title}>
                   <Link
-                    className="text-muted-foreground hover:text-foreground"
+                    className="text-sm text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                     href={href}
                   >
                     {title}
@@ -60,39 +46,54 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Subscribe Newsletter */}
-          <div className="w-full max-w-xs">
-            <h6 className="font-medium">Stay up to date</h6>
-            <form className="mt-6 flex items-center gap-2">
-              <Input placeholder="Enter your email" type="email" />
-              <Button>Subscribe</Button>
-            </form>
+          <div>
+            <h6 className="text-sm font-bold tracking-wider text-gray-950 dark:text-white uppercase mb-4">
+              Contact Information
+            </h6>
+            <ul className="space-y-3 text-sm text-gray-600 dark:text-gray-400">
+              <li className="flex items-center gap-2.5">
+                <Mail className="size-4 text-purple-500" />
+                <a href="mailto:info@studynook.com" className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                  info@studynook.com
+                </a>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <Phone className="size-4 text-purple-500" />
+                <a href="tel:+880123456789" className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                  +880 1234-567890
+                </a>
+              </li>
+            </ul>
           </div>
+
         </div>
-        <Separator />
-        <div className="flex flex-col-reverse items-center justify-between gap-x-2 gap-y-5 px-6 py-8 sm:flex-row xl:px-0">
-          {/* Copyright */}
-          <span className="text-muted-foreground">
-            &copy; {new Date().getFullYear()}{" "}
-            <Link href="/" target="_blank">
-              Shadcn UI Blocks
+
+        <Separator className="my-8 bg-gray-200/60 dark:bg-gray-800/60" />
+
+        <div className="flex flex-col-reverse items-center justify-between gap-y-4 sm:flex-row">
+          <span className="text-xs text-gray-500 dark:text-gray-400">
+            &copy; {new Date().getFullYear()}{' '}
+            <Link href="/" className="hover:text-purple-600 dark:hover:text-purple-400 font-medium">
+              StudyNook
             </Link>
             . All rights reserved.
           </span>
 
-          <div className="flex items-center gap-5 text-muted-foreground">
-            {/* <Link href="#" target="_blank">
-              <TwitterIcon className="h-5 w-5" />
+          <div className="flex items-center gap-5 text-gray-500 dark:text-gray-400">
+            <Link href="#" className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors" target="_blank">
+              <FaFacebook className="size-5" />
             </Link>
-            <Link href="#" target="_blank">
-              <DribbbleIcon className="h-5 w-5" />
+            <Link href="#" className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors" target="_blank">
+              <svg viewBox="0 0 24 24" aria-hidden="true" className="size-4.5 fill-current">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+              </svg>
             </Link>
-            <Link href="#" target="_blank">
-              <TwitchIcon className="h-5 w-5" />
+            <Link href="#" className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors" target="_blank">
+              <LiaLinkedin className="size-5" />
             </Link>
-            <Link href="#" target="_blank">
-              <GithubIcon className="h-5 w-5" />
-            </Link> */}
+            <Link href="#" className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors" target="_blank">
+              <BsInstagram className="size-5" />
+            </Link>
           </div>
         </div>
       </div>

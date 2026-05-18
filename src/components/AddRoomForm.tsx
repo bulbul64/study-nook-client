@@ -56,7 +56,7 @@ export default function AddRoomForm() {
   });
 
   const onSubmit = (formData: z.infer<typeof formSchema>) => {
-    fetch('http://localhost:5000/rooms', {
+    fetch('http://localhost:5000/api/rooms', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
