@@ -7,14 +7,14 @@ import GradientText from '../gradient-text';
 
 export default function Hero() {
   return (
-    <div className="relative flex w-full flex-col items-center justify-center px-6 pt-16 pb-24 overflow-hidden min-h-[85vh] bg-gray-50 dark:bg-gray-950">
+    <div className="relative flex w-full flex-col items-center justify-center px-6 pt-16 pb-24 overflow-hidden min-h-[85vh]  ">
       <div className="absolute inset-0 -z-20">
         <Image
           src="/hero.png"
           alt="Modern library interior with people studying"
           fill
           priority
-          className="object-cover object-center opacity-40 dark:opacity-20"
+          className="object-cover  object-center opacity-40 dark:opacity-20"
         />
 
         <div className="absolute inset-0 bg-white/70 dark:bg-gray-950/80 backdrop-blur-[2px]" />

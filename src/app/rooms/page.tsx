@@ -9,12 +9,26 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { headers } from 'next/headers'; 
+import { auth } from '@/lib/auth'; 
 
 export default async function AllRoomsPage() {
-  let rooms: Room[] = [];
+ const {token} = await auth.api.getToken({
+  headers: await headers()
+});
 
+// console.log(token);
+
+
+
+  let rooms: Room[] = [];
   try {
     const res = await fetch('http://localhost:5000/api/rooms', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
       cache: 'no-store',
     });
 
