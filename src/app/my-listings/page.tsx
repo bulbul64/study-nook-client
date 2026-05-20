@@ -30,7 +30,7 @@ export default async function MyListingsPage() {
 
   try {
     
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/rooms/my-rooms`, { 
+    const res = await fetch(`/backend/api/rooms/my-rooms`, { 
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

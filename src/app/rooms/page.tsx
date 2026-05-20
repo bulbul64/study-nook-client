@@ -41,7 +41,7 @@ export default async function AllRoomsPage({ searchParams }: PageProps) {
   
   try {
    
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/rooms?${query.toString()}`, {
+    const res = await fetch(`/backend/api/rooms?${query.toString()}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

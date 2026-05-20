@@ -86,7 +86,7 @@ export default function EditModal({
     const { _id, ...updateData } = formData;
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/rooms/${_id}`, {
+      const res = await fetch(`/backend/api/rooms/${_id}`, {
         method: 'PATCH',
         credentials: 'include',
         headers: {

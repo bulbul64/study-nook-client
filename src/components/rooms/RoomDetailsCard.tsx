@@ -82,7 +82,7 @@ export default function RoomDetailsClient({ room }: { room: RoomType }) {
   const handleDelete = async () => {
      const { data: tokenData } = await authClient.token();
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/rooms/${room._id}`, { method: 'DELETE' ,
+      const res = await fetch(`/backend/api/rooms/${room._id}`, { method: 'DELETE' ,
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
@@ -131,7 +131,7 @@ export default function RoomDetailsClient({ room }: { room: RoomType }) {
     console.log(bookingData)
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/rooms/bookings`, {
+      const res = await fetch(`/backend/api/rooms/bookings`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',

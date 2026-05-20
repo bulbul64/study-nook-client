@@ -18,7 +18,7 @@ const handleCancel = async () => {
 
   try {
  
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/rooms/bookings/${booking._id}/cancel`, {
+    const res = await fetch(`/backend/api/rooms/bookings/${booking._id}/cancel`, {
       method: 'PATCH', // DELETE পরিবর্তন করে PATCH করা হয়েছে
       credentials: 'include',
       headers: {
