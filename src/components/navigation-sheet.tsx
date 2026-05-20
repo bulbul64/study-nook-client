@@ -22,7 +22,7 @@ export const NavigationSheet = () => {
 
       <SheetTrigger asChild>
         <Button
-          className="rounded-full border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
+          className="rounded-full h-10 w-10 border-gray-200/60 dark:border-white/10 bg-white/50 dark:bg-white/5 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/10 transition-all duration-300"
           size="icon"
           variant="outline"
         >
@@ -32,14 +32,14 @@ export const NavigationSheet = () => {
 
       <SheetContent
         side="right"
-        className="px-6 py-6 sm:max-w-xs bg-white/70 dark:bg-gray-900/60 backdrop-blur-xl border-l border-gray-200/80 dark:border-gray-800/80"
+        className="px-6 py-8 sm:max-w-xs bg-white/90 dark:bg-[#131418]/95 backdrop-blur-2xl border-l border-gray-200/50 dark:border-white/5"
       >
-        <div className="flex flex-col gap-6 mt-4">
+        <div className="flex flex-col gap-8 mt-4">
           <div className="px-2">
             <Logo />
           </div>
 
-          <hr className="border-gray-200 dark:border-gray-800" />
+          <hr className="border-gray-200/80 dark:border-white/10" />
 
           <NavMenu className="w-full" orientation="vertical" />
         </div>

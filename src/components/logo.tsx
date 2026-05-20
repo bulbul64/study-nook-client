@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface LogoProps {
   className?: string;
@@ -6,21 +7,32 @@ interface LogoProps {
 
 const Logo = ({ className = '' }: LogoProps) => {
   return (
-    <div className={`flex items-center gap-2.5 ${className}`}>
-      <Image
-        src="/logo.png"
-        alt="StudyNook Logo"
-        width={50}
-        height={50}
-        className="object-contain"
-        priority
-      />
+    <Link 
+      href="/" 
+      className={`flex items-center gap-2.5 group select-none transition-transform duration-300 active:scale-95 ${className}`}
+    >
+      {/* Logo Image Wrapper with subtle hover animation */}
+      <div className="relative transition-transform duration-500 group-hover:rotate-[6px]">
+        <Image
+          src="/logo.png"
+          alt="StudyNook Logo"
+          width={44}
+          height={44}
+          className="object-contain sm:w-[48px] sm:h-[48px]"
+          priority
+        />
+      </div>
 
-      <h2 className="text-2xl font-black tracking-tight text-gray-900 dark:text-gray-50">
-        <span className="text-[#FA9500]">Study</span>
-        Nook
+      {/* Typography matched with header styles */}
+      <h2 className="text-xl sm:text-2xl font-black tracking-[-0.03em] uppercase text-gray-900 dark:text-white transition-colors duration-300">
+        <span className="text-[#FA9500] transition-colors duration-300 group-hover:text-[#e08600]">
+          Study
+        </span>
+        <span className="text-gray-900 dark:text-white">
+          Nook
+        </span>
       </h2>
-    </div>
+    </Link>
   );
 };
 

@@ -25,9 +25,6 @@ import EditModal from './EditModal';
 import { AlertDialogDestructive } from './AlertDialogAction ';
 import { authClient, useSession } from '@/lib/auth-client';
 
-
-
-
 const amenityIcons: Record<string, React.ComponentType<{ className?: string }>> = {
   wifi: Wifi,
   projector: Tv,
@@ -59,9 +56,6 @@ export default function RoomDetailsClient({ room }: { room: RoomType }) {
   const [isEditing, setIsEditing] = useState(false);
  const {data: session} = useSession();
  const user = session?.user
-//  console.log(user)
-
-
 
   const [bookingDate, setBookingDate] = useState('');
   const [startTime, setStartTime] = useState('');
@@ -69,9 +63,9 @@ export default function RoomDetailsClient({ room }: { room: RoomType }) {
 
   if (!room) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-950 px-4">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-[#1a1c23] px-4">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Room not found!</h2>
-        <Link href="/rooms" className="mt-5 text-sm text-purple-600 font-semibold hover:underline flex items-center gap-2">
+        <Link href="/rooms" className="mt-5 text-sm text-[#ee6923] font-semibold hover:underline flex items-center gap-2">
           <ArrowLeft className="size-4" /> Back to Rooms
         </Link>
       </div>
@@ -80,31 +74,19 @@ export default function RoomDetailsClient({ room }: { room: RoomType }) {
 
   const bookingCount = room.bookingCount || 0;
 
-  
   const startHour = startTime ? parseInt(startTime.split(':')[0]) : 0;
   const endHour = endTime ? parseInt(endTime.split(':')[0]) : 0;
   const totalHours = endHour - startHour;
   const totalCost = totalHours > 0 ? totalHours * Number(room.hourlyRate) : 0;
 
-
-
-
-
-
-
-
-
-
-
   const handleDelete = async () => {
      const { data: tokenData } = await authClient.token();
     try {
-      const res = await fetch(`http://localhost:5000/api/rooms/${room._id}`, { method: 'DELETE' ,
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/rooms/${room._id}`, { method: 'DELETE' ,
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
         noCache: 'no-cache',
-        // Authorization: `Bearer ${tokenData?.token}`,
       },
       });
       if (res.ok) {
@@ -120,7 +102,6 @@ export default function RoomDetailsClient({ room }: { room: RoomType }) {
     } 
   };
 
-
   const handleBooking = async () => {
     if (!bookingDate || !startTime || !endTime) {
       toast.error('Please fill all booking fields!');
@@ -131,7 +112,6 @@ export default function RoomDetailsClient({ room }: { room: RoomType }) {
       toast.error('End Time must be after Start Time!');
       return;
     }
-
 
     const bookingData = {
       userId: user?.id,
@@ -151,8 +131,7 @@ export default function RoomDetailsClient({ room }: { room: RoomType }) {
     console.log(bookingData)
 
     try {
-     
-      const res = await fetch('http://localhost:5000/api/rooms/bookings', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/rooms/bookings`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -175,26 +154,25 @@ export default function RoomDetailsClient({ room }: { room: RoomType }) {
     }
   };
 
-  
   const today = new Date().toISOString().split('T')[0];
 
   return (
     <>
-      <div className="w-full min-h-screen bg-gray-50 dark:bg-gray-950 relative overflow-hidden pt-32 pb-16 px-4 sm:px-6 lg:px-8">
+      <div className="w-full min-h-screen bg-gray-50 dark:bg-[#1a1c23] relative overflow-hidden pt-32 pb-16 px-4 sm:px-6 lg:px-8">
         <EditModal room={room} isEditing={isEditing} setIsEditing={setIsEditing} />
 
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-100 bg-radial from-purple-500/10 via-indigo-500/5 to-transparent pointer-events-none blur-3xl dark:from-purple-500/15" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-100 bg-radial from-[#ee6923]/10 via-[#ee6923]/5 to-transparent pointer-events-none blur-3xl dark:from-[#ee6923]/15" />
 
         <div className="max-w-5xl mx-auto relative z-10">
           {/* Header Actions */}
           <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8">
-            <Link href="/rooms" className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors group">
+            <Link href="/rooms" className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-[#ee6923] dark:hover:text-[#FA9500] transition-colors group">
               <ArrowLeft className="size-4 group-hover:-translate-x-1 transition-transform" /> Back to all spaces
             </Link>
 
             <div className="flex items-center gap-3">
-              <Button variant="outline" size="sm" onClick={() => setIsEditing(true)} className="rounded-xl border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 flex items-center gap-2 font-semibold hover:border-blue-500 hover:text-blue-500 dark:hover:text-blue-400">
-                <Edit3 className="size-4 text-blue-500" /> Edit Space
+              <Button variant="outline" size="sm" onClick={() => setIsEditing(true)} className="rounded-xl border-gray-200 dark:border-white/10 bg-white dark:bg-[#131418] text-gray-700 dark:text-gray-300 flex items-center gap-2 font-semibold hover:border-[#ee6923] hover:text-[#ee6923] dark:hover:text-[#FA9500]">
+                <Edit3 className="size-4 text-[#ee6923]" /> Edit Space
               </Button>
               <AlertDialogDestructive handleDelete={handleDelete} />
             </div>
@@ -203,7 +181,7 @@ export default function RoomDetailsClient({ room }: { room: RoomType }) {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
             {/* Left Side: Room Details */}
             <div className="lg:col-span-2 space-y-6">
-              <div className="relative aspect-video w-full rounded-3xl overflow-hidden border border-gray-200/60 dark:border-gray-800/60 shadow-xl bg-gray-100 dark:bg-gray-900">
+              <div className="relative aspect-video w-full rounded-3xl overflow-hidden border border-gray-200/60 dark:border-white/5 shadow-xl bg-gray-100 dark:bg-[#131418]">
                 <Image fill src={room.imageUrl} alt={room.roomName} className="w-full h-full object-cover" priority />
               </div>
 
@@ -212,14 +190,14 @@ export default function RoomDetailsClient({ room }: { room: RoomType }) {
                 <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed">{room.description}</p>
               </div>
 
-              <div className="border-t border-gray-200/60 dark:border-gray-800/60 pt-6">
+              <div className="border-t border-gray-200/60 dark:border-white/5 pt-6">
                 <h3 className="text-sm font-bold tracking-wider text-gray-400 uppercase mb-4">Available Amenities</h3>
                 <div className="flex flex-wrap gap-3">
                   {room.amenities?.map((amenity: string) => {
                     const Icon = amenityIcons[amenity.toLowerCase()] || Wifi;
                     return (
-                      <Badge key={amenity} variant="secondary" className="px-4 py-2 rounded-xl bg-white dark:bg-gray-900 border border-gray-200/60 dark:border-gray-800/60 shadow-sm flex items-center gap-2.5 capitalize text-xs font-semibold text-gray-700 dark:text-gray-300">
-                        <Icon className="size-4 text-purple-500" /> {amenity}
+                      <Badge key={amenity} variant="secondary" className="px-4 py-2 rounded-xl bg-white dark:bg-[#131418] border border-gray-200/60 dark:border-white/5 shadow-sm flex items-center gap-2.5 capitalize text-xs font-semibold text-gray-700 dark:text-gray-300">
+                        <Icon className="size-4 text-[#ee6923]" /> {amenity}
                       </Badge>
                     );
                   })}
@@ -227,33 +205,31 @@ export default function RoomDetailsClient({ room }: { room: RoomType }) {
               </div>
             </div>
 
-          
             <div className="lg:col-span-1">
-              <div className="sticky top-28 p-6 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border border-gray-200/80 dark:border-gray-800/80 rounded-3xl shadow-xl space-y-6">
-                <div className="flex items-baseline justify-between border-b border-gray-100 dark:border-gray-800 pb-4">
+              <div className="sticky top-28 p-6 bg-white/80 dark:bg-[#131418]/80 backdrop-blur-md border border-gray-200/80 dark:border-white/10 rounded-3xl shadow-xl space-y-6">
+                <div className="flex items-baseline justify-between border-b border-gray-100 dark:border-white/5 pb-4">
                   <span className="text-gray-500 dark:text-gray-400 text-sm font-medium">Price per hour</span>
                   <div className="flex items-center text-gray-950 dark:text-white">
-                    <DollarSign className="size-5 text-purple-500 -mr-1" />
+                    <DollarSign className="size-5 text-[#ee6923] -mr-1" />
                     <span className="text-3xl font-black">{room.hourlyRate}</span>
                     <span className="text-gray-500 dark:text-gray-400 text-sm font-normal ml-1">/ hr</span>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3.5 p-3.5 bg-purple-50/50 dark:bg-purple-950/20 border border-purple-100/70 dark:border-purple-900/30 rounded-2xl">
-                  <div className="p-2.5 bg-purple-600 text-white rounded-xl shadow-md shadow-purple-500/10">
+                <div className="flex items-center gap-3.5 p-3.5 bg-[#ee6923]/5 dark:bg-[#ee6923]/10 border border-[#ee6923]/20 dark:border-[#ee6923]/20 rounded-2xl">
+                  <div className="p-2.5 bg-[#ee6923] text-white rounded-xl shadow-md shadow-[#ee6923]/20">
                     <BookmarkCheck className="size-4.5" />
                   </div>
                   <div>
                     <p className="text-[11px] text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wider">Popularity</p>
-                    <p className="text-sm font-bold text-gray-950 dark:text-white">Booked <span className="text-purple-600 dark:text-purple-400 font-extrabold text-base">{bookingCount}</span> times</p>
+                    <p className="text-sm font-bold text-gray-950 dark:text-white">Booked <span className="text-[#ee6923] dark:text-[#FA9500] font-extrabold text-base">{bookingCount}</span> times</p>
                   </div>
                 </div>
 
-              
-                <div className="space-y-4 pt-2 border-t border-gray-100 dark:border-gray-800">
+                <div className="space-y-4 pt-2 border-t border-gray-100 dark:border-white/5">
                   <div>
                     <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1 block">Select Date</label>
-                    <Input type="date" min={today} value={bookingDate} onChange={(e) => setBookingDate(e.target.value)} className="rounded-xl" />
+                    <Input type="date" min={today} value={bookingDate} onChange={(e) => setBookingDate(e.target.value)} className="rounded-xl border-gray-200 dark:border-white/10 bg-transparent dark:text-white" />
                   </div>
                   
                   <div className="grid grid-cols-2 gap-3">
@@ -262,7 +238,7 @@ export default function RoomDetailsClient({ room }: { room: RoomType }) {
                       <select 
                         value={startTime} 
                         onChange={(e) => setStartTime(e.target.value)}
-                        className="w-full h-10 px-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-sm focus:outline-hidden focus:ring-2 focus:ring-purple-500/50"
+                        className="w-full h-10 px-3 rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-[#1a1c23] text-sm dark:text-white focus:outline-none focus:ring-2 focus:ring-[#ee6923]/50"
                       >
                         <option value="">Select</option>
                         {TIME_SLOTS.map(slot => <option key={slot} value={slot}>{slot}</option>)}
@@ -273,7 +249,7 @@ export default function RoomDetailsClient({ room }: { room: RoomType }) {
                       <select 
                         value={endTime} 
                         onChange={(e) => setEndTime(e.target.value)}
-                        className="w-full h-10 px-3 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-sm focus:outline-hidden focus:ring-2 focus:ring-purple-500/50"
+                        className="w-full h-10 px-3 rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-[#1a1c23] text-sm dark:text-white focus:outline-none focus:ring-2 focus:ring-[#ee6923]/50"
                       >
                         <option value="">Select</option>
                         {TIME_SLOTS.map(slot => <option key={slot} value={slot}>{slot}</option>)}
@@ -281,28 +257,26 @@ export default function RoomDetailsClient({ room }: { room: RoomType }) {
                     </div>
                   </div>
 
-                
                   {totalCost > 0 && (
-                    <div className="flex justify-between items-center bg-gray-50 dark:bg-gray-900/50 p-3 rounded-xl border border-dashed border-gray-200 dark:border-gray-800">
+                    <div className="flex justify-between items-center bg-gray-50 dark:bg-white/5 p-3 rounded-xl border border-dashed border-gray-200 dark:border-white/10">
                       <span className="text-xs font-bold text-gray-500 uppercase">Total Cost ({totalHours} {totalHours === 1 ? 'hr' : 'hrs'})</span>
-                      <span className="text-sm font-black text-purple-600 dark:text-purple-400">${totalCost}</span>
+                      <span className="text-sm font-black text-[#ee6923] dark:text-[#FA9500]">${totalCost}</span>
                     </div>
                   )}
                 </div>
 
                 <div className="space-y-3.5 pt-2">
                   <div className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-300">
-                    <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-xl text-gray-500"><Layers className="size-4" /></div>
+                    <div className="p-2 bg-gray-100 dark:bg-white/5 rounded-xl text-gray-500"><Layers className="size-4" /></div>
                     <span>Location: <span className="font-semibold text-gray-950 dark:text-white">{room.floor}</span></span>
                   </div>
                   <div className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-300">
-                    <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-xl text-gray-500"><Users className="size-4" /></div>
+                    <div className="p-2 bg-gray-100 dark:bg-white/5 rounded-xl text-gray-500"><Users className="size-4" /></div>
                     <span>Capacity: <span className="font-semibold text-gray-950 dark:text-white">{room.capacity} Students</span></span>
                   </div>
                 </div>
 
-               
-                <Button onClick={handleBooking} className="w-full py-6 rounded-2xl font-bold text-sm shadow-md transition-all active:scale-[0.98] flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white shadow-purple-500/10">
+                <Button onClick={handleBooking} className="w-full py-6 rounded-2xl font-bold text-sm shadow-md transition-all active:scale-[0.98] flex items-center justify-center gap-2 bg-[#ee6923] hover:bg-[#d95d1e] text-white shadow-[#ee6923]/20">
                   <Calendar className="size-4" /> Book This Space Now
                 </Button>
 

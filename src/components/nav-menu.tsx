@@ -26,7 +26,7 @@ export const NavMenu = (props: ComponentProps<typeof NavigationMenu>) => {
           <NavigationMenuItem key={link.title}>
             <NavigationMenuLink
               asChild
-              className={`${navigationMenuTriggerStyle()} w-full justify-start rounded-full text-gray-700 dark:text-gray-300 hover:text-[#FA9500] data-active:text-[#FA9500] data-active:bg-[#FA9500]/10`}
+              className={`${navigationMenuTriggerStyle()} bg-transparent w-full justify-start rounded-full font-semibold text-[13px] text-gray-600 dark:text-gray-300 hover:text-[#FA9500] dark:hover:text-[#FA9500] hover:bg-[#FA9500]/5 dark:hover:bg-[#FA9500]/10 data-[active]:text-[#FA9500] data-[active]:bg-[#FA9500]/10 transition-all duration-300 px-4`}
             >
               <Link href={link.href}>{link.title}</Link>
             </NavigationMenuLink>

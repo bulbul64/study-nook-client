@@ -29,8 +29,8 @@ export default async function MyListingsPage() {
   let isError = false;
 
   try {
-    // URL থেকে আইডি বাদ দেওয়া হয়েছে
-    const res = await fetch(`http://localhost:5000/api/rooms/my-rooms`, { 
+    
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/rooms/my-rooms`, { 
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -97,9 +97,9 @@ export default async function MyListingsPage() {
           </Select>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
           {rooms.map((room: Room) => (
-            <MyListCard key={room.id || room._id} room={room} />
+            <MyListCard key={room._id || room._id} room={room} />
           ))}
         </div>
       </div>

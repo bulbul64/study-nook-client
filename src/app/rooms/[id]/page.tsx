@@ -14,7 +14,7 @@ export default async function RoomDetailsPage({ params }: PageProps) {
   let room = null;
 
   try {
-    const res = await fetch(`http://localhost:5000/api/rooms/${id}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/rooms/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
