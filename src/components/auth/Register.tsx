@@ -16,8 +16,7 @@ const formSchema = z.object({
   name: z.string().min(1, "নাম আবশ্যক"),
   email: z.string().email("একটি সঠিক ইমেল ঠিকানা লিখুন"),
   photoUrl: z.string().url("সঠিক ছবির ইউআরএল (URL) দিন"),
-  password: z
-    .string()
+ password: z.string().min(6, "পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে"),
   
 });
 
@@ -45,12 +44,12 @@ const router = useRouter();
 });
 
     if (!error) {
-  router.push('/login')
+  router.push('/')
 }
   };
 
    const handleGoogleLogin = async () => {
-    const data = await authClient.signIn.social({
+   await authClient.signIn.social({
     provider: "google",
   });
   };
