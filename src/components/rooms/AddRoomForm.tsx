@@ -70,7 +70,7 @@ export default function AddRoomForm() {
 
     // const { data: tokenData } = await authClient.token();
 
-    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/rooms`, {
+    fetch('/backend/api/rooms', {
       method: 'POST',
       credentials: 'include',
       headers: {
