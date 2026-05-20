@@ -22,6 +22,7 @@ import {
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Field, FieldError, FieldLabel } from '../ui/field';
+import { authClient } from '@/lib/auth-client';
 
 const AVAILABLE_AMENITIES = [
   { id: 'wifi', label: 'High-speed Wi-Fi', icon: Wifi },
@@ -62,6 +63,9 @@ export default function EditModal({
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
   room: RoomType;
 }) {
+
+ 
+
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
       roomName: room.roomName,
@@ -77,13 +81,17 @@ export default function EditModal({
   });
 
   const onSubmit = async (formData: z.infer<typeof formSchema>) => {
+//  const {data:tokenData} = await authClient.token();
+
     const { _id, ...updateData } = formData;
 
     try {
       const res = await fetch(`http://localhost:5000/api/rooms/${_id}`, {
         method: 'PATCH',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
+          // Authorization: `Bearer ${tokenData?.token}`,
         },
         body: JSON.stringify(updateData),
       });

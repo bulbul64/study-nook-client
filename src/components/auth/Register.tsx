@@ -18,9 +18,7 @@ const formSchema = z.object({
   photoUrl: z.string().url("সঠিক ছবির ইউআরএল (URL) দিন"),
   password: z
     .string()
-    // .min(6, "পাসওয়ার্ড অন্তত ৬ অক্ষরের হতে হবে")
-    // .regex(/[A-Z]/, "অন্তত একটি বড় হাতের অক্ষর (Uppercase) থাকতে হবে")
-    // .regex(/[a-z]/, "অন্তত একটি ছোট হাতের অক্ষর (Lowercase) থাকতে হবে"),
+  
 });
 
 
@@ -47,7 +45,7 @@ const router = useRouter();
 });
 
     if (!error) {
-  router.push('/')
+  router.push('/login')
 }
   };
   

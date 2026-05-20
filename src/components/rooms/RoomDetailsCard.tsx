@@ -23,7 +23,7 @@ import { toast } from 'sonner';
 import Image from 'next/image';
 import EditModal from './EditModal';
 import { AlertDialogDestructive } from './AlertDialogAction ';
-import { useSession } from '@/lib/auth-client';
+import { authClient, useSession } from '@/lib/auth-client';
 
 
 
@@ -86,9 +86,27 @@ export default function RoomDetailsClient({ room }: { room: RoomType }) {
   const totalHours = endHour - startHour;
   const totalCost = totalHours > 0 ? totalHours * Number(room.hourlyRate) : 0;
 
+
+
+
+
+
+
+
+
+
+
   const handleDelete = async () => {
+     const { data: tokenData } = await authClient.token();
     try {
-      const res = await fetch(`http://localhost:5000/api/rooms/${room._id}`, { method: 'DELETE' });
+      const res = await fetch(`http://localhost:5000/api/rooms/${room._id}`, { method: 'DELETE' ,
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        noCache: 'no-cache',
+        // Authorization: `Bearer ${tokenData?.token}`,
+      },
+      });
       if (res.ok) {
         toast.success('Room deleted successfully!');
         router.push('/rooms');

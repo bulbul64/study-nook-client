@@ -1,10 +1,8 @@
 import React from 'react';
-
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import RoomDetailsCard from '@/components/rooms/RoomDetailsCard';
 import { headers } from 'next/headers';
-import { auth } from '@/lib/auth';
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -12,18 +10,15 @@ interface PageProps {
 
 export default async function RoomDetailsPage({ params }: PageProps) {
   const { id } = await params;
+  const currentHeaders = await headers();
   let room = null;
-
-  const { token } = await auth.api.getToken({
-    headers: await headers(),
-  });
 
   try {
     const res = await fetch(`http://localhost:5000/api/rooms/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        'Cookie': currentHeaders.get('cookie') || '',
       },
       cache: 'no-store',
     });

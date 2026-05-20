@@ -14,6 +14,7 @@ import {
   Sparkles,
   Plus,
   FileText,
+  ArrowLeft,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { z } from 'zod';
@@ -22,6 +23,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Field, FieldError, FieldLabel } from '../ui/field';
 import { Input } from '../ui/input';
 import { toast } from 'sonner';
+import { authClient, useSession } from '@/lib/auth-client';
+import { redirect } from 'next/navigation';
+import Link from 'next/link';
+// import { useSession } from '@/lib/auth-client';
 
 const AVAILABLE_AMENITIES = [
   { id: 'wifi', label: 'High-speed Wi-Fi', icon: Wifi },
@@ -54,18 +59,37 @@ export default function AddRoomForm() {
     },
     resolver: zodResolver(formSchema),
   });
+  const { data: session } = useSession();
+  const user = session?.user;
+  const userId = user?.id;
+  // console.log(userId);
 
-  const onSubmit = (formData: z.infer<typeof formSchema>) => {
-    fetch('http://localhost:5000/api/rooms', {
+
+
+  const onSubmit = async (formData: z.infer<typeof formSchema>) => {
+    const payload = {
+      ...formData,
+      userId,
+    };
+
+    // console.log(payload)
+    const { data: tokenData } = await authClient.token();
+
+     const res = fetch('http://localhost:5000/api/rooms', {
       method: 'POST',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
+        // Authorization: `Bearer ${tokenData?.token}`,
+        noCache: 'no-cache',
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(payload),
     })
+     
       .then((response) => {
         if (response.ok) {
           toast.success('Room added successfully');
+          form.reset();
         } else {
           toast.error('Failed to add room');
         }
@@ -223,7 +247,9 @@ export default function AddRoomForm() {
                                 : 'bg-white/40 dark:bg-gray-950/40 border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-900'
                             }`}
                           >
-                            <Icon className={`size-4 ${isSelected ? 'text-[#FA9500]' : 'text-gray-400'}`} />
+                            <Icon
+                              className={`size-4 ${isSelected ? 'text-[#FA9500]' : 'text-gray-400'}`}
+                            />
                             {amenity.label}
                           </button>
                         );

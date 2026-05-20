@@ -1,6 +1,6 @@
 import React from 'react';
 import RoomsCard from '@/components/rooms/RoomsCard';
-import { Inbox } from 'lucide-react';
+import { ArrowLeft, Inbox } from 'lucide-react';
 import { Room } from '@/types/room';
 import {
   Select,
@@ -11,23 +11,37 @@ import {
 } from '@/components/ui/select';
 import { headers } from 'next/headers'; 
 import { auth } from '@/lib/auth'; 
+import Link from 'next/link';
 
 export default async function AllRoomsPage() {
- const {token} = await auth.api.getToken({
-  headers: await headers()
-});
+  const currentHeaders = await headers();
+  
+  const session = await auth.api.getSession({
+    headers: currentHeaders
+  });
+  
+  const user = session?.user;
+  // if (!user) {
+  //   return (
+  //     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-950 px-4">
+  //       <h2 className="text-2xl font-bold text-gray-900 dark:text-white">You are not logged in!</h2>
+  //       <Link href="/login" className="mt-5 text-sm text-purple-600 font-semibold hover:underline flex items-center gap-2">
+  //         <ArrowLeft className="size-4" /> Back to Login
+  //       </Link>
+  //     </div>
+  //   );
+  // }
 
-// console.log(token);
-
-
+  
 
   let rooms: Room[] = [];
+  
   try {
     const res = await fetch('http://localhost:5000/api/rooms', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        'Cookie': currentHeaders.get('cookie') || '',
       },
       cache: 'no-store',
     });
@@ -37,12 +51,14 @@ export default async function AllRoomsPage() {
     }
 
     rooms = await res.json();
-  } catch (error) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
     console.error('Error fetching rooms:', error);
   }
 
   return (
     <div className="w-full min-h-screen bg-gray-50 dark:bg-gray-950 relative overflow-hidden pt-32 pb-16 px-4 sm:px-6 lg:px-8">
+     
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-radial from-[#FA9500]/10 via-transparent to-transparent pointer-events-none blur-3xl dark:from-[#FA9500]/15" />
       <div className="absolute top-12 left-1/4 w-72 h-72 bg-[#FA9500]/10 rounded-full pointer-events-none blur-3xl" />
       <div className="absolute top-20 right-1/4 w-72 h-72 bg-[#ffb347]/10 rounded-full pointer-events-none blur-3xl" />
@@ -77,11 +93,9 @@ export default async function AllRoomsPage() {
             <div className="p-4 bg-[#FA9500]/10 rounded-full text-[#FA9500] mb-4">
               <Inbox className="size-10" />
             </div>
-
             <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-50">
               No rooms found
             </h3>
-
             <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
               We couldn’t find any study spaces available right now. Try again later or add a new room.
             </p>
