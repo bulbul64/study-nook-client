@@ -20,7 +20,7 @@ export default async function RoomDetailsPage({ params }: PageProps) {
         'Content-Type': 'application/json',
         'Cookie': currentHeaders.get('cookie') || '',
       },
-      cache: 'no-store',
+     
     });
 
     if (res.ok) {

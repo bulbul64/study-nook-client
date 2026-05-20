@@ -12,7 +12,6 @@ export default async function FeaturedStudySpaces() {
     const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/rooms/featured-rooms`, { 
       method: 'GET',
       credentials: 'include',
-      cache: 'no-store'
     });
     rooms = await res.json();
   } catch (error) {

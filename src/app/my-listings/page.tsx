@@ -36,7 +36,7 @@ export default async function MyListingsPage() {
         'Content-Type': 'application/json',
         'Cookie': currentHeaders.get('cookie') || '', 
       },
-      cache: 'no-store',
+  
     });
 
     if (res.ok) {

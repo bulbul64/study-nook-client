@@ -33,7 +33,7 @@ export default async function MyBookingPage() {
         'Content-Type': 'application/json',
         'Cookie': currentHeaders.get('cookie') || '',
       },
-      cache: 'no-store'
+
     });
 
     if (res.ok) {

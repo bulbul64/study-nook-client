@@ -47,7 +47,7 @@ export default async function AllRoomsPage({ searchParams }: PageProps) {
         'Content-Type': 'application/json',
         'Cookie': currentHeaders.get('cookie') || '',
       },
-      cache: 'no-store',
+     
     });
 
     if (!res.ok) {
