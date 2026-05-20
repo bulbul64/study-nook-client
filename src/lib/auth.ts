@@ -15,17 +15,16 @@ export const auth = betterAuth({
   },
 
   socialProviders: {
-        google: { 
-            clientId: process.env.GOOGLE_CLIENT_ID as string, 
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET as string, 
-        }, 
-    },
-
+    google: { 
+      clientId: process.env.GOOGLE_CLIENT_ID as string, 
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string, 
+    }, 
+  },
 
   database: mongodbAdapter(db, {
-    // Optional: if you don't provide a client, database transactions won't be enabled.
     client,
   }),
+
   session: {
     cookieCache: {
       enabled: true,
@@ -33,5 +32,15 @@ export const auth = betterAuth({
       maxAge: 7 * 24 * 60 * 60,
     },
   },
+
+  // === এই অংশটুকু নতুন যুক্ত করা হয়েছে ===
+  advanced: {
+    defaultCookieAttributes: {
+      sameSite: "none", // ক্রস-ডোমেইন কুকি এলাও করার জন্য
+      secure: true,     // HTTPS-এর মাধ্যমে কুকি পাস করার জন্য
+    }
+  },
+  // ===================================
+
   plugins: [jwt()],
 });

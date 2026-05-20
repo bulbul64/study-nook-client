@@ -1,6 +1,6 @@
 import React from 'react';
 import RoomsCard from '@/components/rooms/RoomsCard';
-import RoomFilters from '@/components/rooms/RoomFilters'; // ফিল্টার কম্পোনেন্ট ইমপোর্ট করা হলো
+import RoomFilters from '@/components/rooms/RoomFilters';
 import { ArrowLeft, Inbox } from 'lucide-react';
 import { Room } from '@/types/room';
 import {
@@ -13,7 +13,7 @@ import {
 import { headers } from 'next/headers'; 
 import { auth } from '@/lib/auth'; 
 
-// Next.js 15-এর নিয়ম অনুযায়ী searchParams একটি Promise হিসেবে আসে
+
 interface PageProps {
   searchParams: Promise<{
     search?: string;
