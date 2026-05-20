@@ -1,5 +1,9 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 import {
   Calendar,
   Clock,
@@ -14,6 +18,40 @@ import { Badge } from '@/components/ui/badge';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function BookingCard({ booking }: { booking: any }) {
+  const router = useRouter();
+  const [isCancelling, setIsCancelling] = useState(false);
+
+  const handleCancel = async () => {
+   
+    const confirmed = window.confirm("Are you sure you want to cancel this booking?");
+    
+    if (!confirmed) return;
+
+    setIsCancelling(true);
+
+    try {
+    
+      const res = await fetch(`http://localhost:5000/api/rooms/bookings/${booking._id}/cancel`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include' 
+      });
+
+      if (res.ok) {
+        toast.success("Booking cancelled successfully");
+        router.refresh(); 
+      } else {
+        const errorData = await res.json();
+        toast.error(errorData.message || "Failed to cancel booking");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Something went wrong!");
+    } finally {
+      setIsCancelling(false);
+    }
+  };
+
   return (
     <div className="group relative flex flex-col md:flex-row bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800/80 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
       <div className="relative w-full md:w-72 h-60 md:h-auto shrink-0 overflow-hidden">
@@ -105,13 +143,23 @@ export default function BookingCard({ booking }: { booking: any }) {
         </div>
 
         <div className="mt-8 flex justify-end">
-          <Button
-            variant="outline"
-            className="rounded-xl px-6 border-gray-200 dark:border-gray-800 text-red-500 hover:bg-red-50 hover:text-red-600 hover:border-red-200 dark:hover:bg-red-500/10 dark:hover:border-red-500/30 transition-all font-bold h-11"
-          >
-            <XCircle className="size-4 mr-2" />
-            Cancel Booking
-          </Button>
+         
+          {booking.status !== 'cancelled' ? (
+            <Button
+              onClick={handleCancel}
+              disabled={isCancelling}
+              variant="outline"
+              className="rounded-xl px-6 border-gray-200 dark:border-gray-800 text-red-500 hover:bg-red-50 hover:text-red-600 hover:border-red-200 dark:hover:bg-red-500/10 dark:hover:border-red-500/30 transition-all font-bold h-11 disabled:opacity-50"
+            >
+              <XCircle className="size-4 mr-2" />
+              {isCancelling ? 'Cancelling...' : 'Cancel Booking'}
+            </Button>
+          ) : (
+            <div className="flex items-center gap-2 text-red-500 font-bold text-sm bg-red-50 dark:bg-red-900/20 px-4 py-2.5 rounded-xl border border-red-100 dark:border-red-900/30">
+              <XCircle className="size-4" />
+              Already Cancelled
+            </div>
+          )}
         </div>
       </div>
     </div>
