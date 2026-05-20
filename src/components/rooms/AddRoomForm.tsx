@@ -233,7 +233,7 @@ export default function AddRoomForm() {
                 render={({ field }) => (
                   
                   <Field>
-                    <FieldLabel className="flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-3 block">
+                    <FieldLabel className="flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-3 ">
                       Select Amenities
                     </FieldLabel>
 
