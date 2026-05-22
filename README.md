@@ -47,6 +47,7 @@ Install dependencies:
 
 Bash
    npm install
+
 Configure Environment Variables:
 Create a .env file in your client-side root directory and hook up your backend endpoint:
 
